@@ -1,0 +1,173 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema laboratorio_dacb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `laboratorio_dacb` ;
+
+-- -----------------------------------------------------
+-- Schema laboratorio_dacb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `laboratorio_dacb` DEFAULT CHARACTER SET utf8 ;
+USE `laboratorio_dacb` ;
+
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Persona`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Persona` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Persona` (
+  `idPersona` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `ApellidoP` VARCHAR(45) NOT NULL,
+  `ApellidoM` VARCHAR(45) NULL,
+  `Edad` INT NOT NULL,
+  PRIMARY KEY (`idPersona`))
+ENGINE = InnoDB;
+INSERT INTO `persona` (`Nombre`, `ApellidoP`, `ApellidoM`, `Edad`) VALUES ('Adry Moisés', 'Arias', 'Morales', '21'), ('Javier', 'Arias', 'Morales', '20'), ('Alejandro', 'Arias', 'Morales', '20');
+
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Nivel_Academico`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Nivel_Academico` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Nivel_Academico` (
+  `idNivel_Academico` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL,
+  `Descripcion` VARCHAR(60) NULL,
+  PRIMARY KEY (`idNivel_Academico`))
+ENGINE = InnoDB;
+INSERT INTO `nivel_academico` (`Nombre`, `Descripcion`) VALUES ('Licenciatura', 'Primer nivel académico'), ('Maestría ', 'Segundo nivel académico'), ('Doctorado', 'Tercer nivel académico');
+
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Categoria`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Categoria` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Categoria` (
+  `idCategoria` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL,
+  `Descripcion` VARCHAR(60) NULL,
+  PRIMARY KEY (`idCategoria`))
+ENGINE = InnoDB;
+
+INSERT INTO `categoria` (`Nombre`, `Descripcion`) VALUES ('Administrador', 'Nivel máximo'), ('Profesor', 'Nivel medio'), ('Alumno', 'Nivel inferior');
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Profesores`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Profesores` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Profesores` (
+  `Matricula_Profesor` VARCHAR(10) NOT NULL,
+  `Password` VARCHAR(10) NULL,
+  `idNivel_Academico` INT NULL,
+  `idPersona` INT NULL,
+  `idCategoria` INT NULL,
+  PRIMARY KEY (`Matricula_Profesor`),
+  CONSTRAINT `idNivel_Academico`
+    FOREIGN KEY (`idNivel_Academico`)
+    REFERENCES `laboratorio_dacb`.`Nivel_Academico` (`idNivel_Academico`),
+  CONSTRAINT `idPersona`
+    FOREIGN KEY (`idPersona`)
+    REFERENCES `laboratorio_dacb`.`Persona` (`idPersona`),
+  CONSTRAINT `idCategoria`
+    FOREIGN KEY (`idCategoria`)
+    REFERENCES `laboratorio_dacb`.`Categoria` (`idCategoria`))
+ENGINE = InnoDB;
+
+INSERT INTO `profesores` (`Matricula_Profesor`, `Password`, `idNivel_Academico`, `idPersona`, `idCategoria`) VALUES ('PROF_01', '123456', '3', '2', '2');
+
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Alumnos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Alumnos` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Alumnos` (
+  `Matricula_Alumno` VARCHAR(10) NOT NULL,
+  `Carrera` VARCHAR(45) NOT NULL,
+  `Semestre` INT NOT NULL,
+  `idPersona` INT NOT NULL,
+  `idNivel_Academico` INT NOT NULL,
+  `idCategoria` INT NOT NULL,
+  `Matricula_Profesor` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`Matricula_Alumno`),
+    FOREIGN KEY (`idPersona`)
+    REFERENCES `laboratorio_dacb`.`Persona` (`idPersona`),
+    FOREIGN KEY (`idNivel_Academico`)
+    REFERENCES `laboratorio_dacb`.`Nivel_Academico` (`idNivel_Academico`),
+    FOREIGN KEY (`idCategoria`)
+    REFERENCES `laboratorio_dacb`.`Categoria` (`idCategoria`),
+    FOREIGN KEY (`Matricula_Profesor`)
+    REFERENCES `laboratorio_dacb`.`Profesores` (`Matricula_Profesor`))
+ENGINE = InnoDB;
+
+INSERT INTO `alumnos` (`Matricula_Alumno`, `Carrera`, `Semestre`, `idPersona`, `idNivel_Academico`, `idCategoria`, `Matricula_Profesor`) VALUES ('192H20654', 'Lic. QFB', '3', '3', '1', '3', 'PROF_01');
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Entrada_Salida`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Entrada_Salida` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Entrada_Salida` (
+  `idEntrada_Salida` INT NOT NULL AUTO_INCREMENT,
+  `Fecha` DATE NULL,
+  `Hora_entrada` TIME NULL,
+  `Hora_salida` TIME NULL,
+  `En_uso` TINYINT NULL,
+  `Matricula_Alumno` VARCHAR(10) NULL,
+  `Matricula_Profesor` VARCHAR(10) NULL,
+  `idCategoria` INT NULL,
+  PRIMARY KEY (`idEntrada_Salida`),
+    FOREIGN KEY (`Matricula_Alumno`)
+    REFERENCES `laboratorio_dacb`.`Alumnos` (`Matricula_Alumno`),
+    FOREIGN KEY (`Matricula_Profesor`)
+    REFERENCES `laboratorio_dacb`.`Profesores` (`Matricula_Profesor`),
+    FOREIGN KEY (`idCategoria`)
+    REFERENCES `laboratorio_dacb`.`Categoria` (`idCategoria`))
+ENGINE = InnoDB;
+
+INSERT INTO `entrada_salida` (`idEntrada_Salida`, `Hora_entrada`, `Hora_salida`, `En_uso`, `Matricula_Alumno`, `Matricula_Profesor`, `idCategoria`) VALUES (NULL, '13:04:00', '14:04:00', '0', '192H20654', 'PROF_01', '3');
+
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`No_Autorizados`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`No_Autorizados` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`No_Autorizados` (
+  `idNo_Autorizados` INT NOT NULL AUTO_INCREMENT,
+  `Fecha` DATE NULL,
+  `Hora` TIME NULL,
+  PRIMARY KEY (`idNo_Autorizados`))
+ENGINE = InnoDB;
+
+INSERT INTO `no_autorizados` (`idNo_Autorizados`, `Fecha`, `Hora`) VALUES ('1', '2022-12-19', '13:06:05');
+
+-- -----------------------------------------------------
+-- Table `laboratorio_dacb`.`Administrador`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `laboratorio_dacb`.`Administrador` ;
+
+CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Administrador` (
+  `Matricula_Administrador` VARCHAR(10) NOT NULL,
+  `Password` VARCHAR(10) NULL,
+  `idPersona` INT NULL,
+  `idCategoria` INT NULL,
+  `idNivel_Academico` INT NULL,
+  `idNo_Autorizado` INT NULL,
+  PRIMARY KEY (`Matricula_Administrador`),
+    FOREIGN KEY (`idPersona`)
+    REFERENCES `laboratorio_dacb`.`Persona` (`idPersona`),
+    FOREIGN KEY (`idCategoria`)
+    REFERENCES `laboratorio_dacb`.`Categoria` (`idCategoria`),
+    FOREIGN KEY (`idNivel_Academico`)
+    REFERENCES `laboratorio_dacb`.`Nivel_Academico` (`idNivel_Academico`),
+    FOREIGN KEY (`idNo_Autorizado`)
+    REFERENCES `laboratorio_dacb`.`No_Autorizados` (`idNo_Autorizados`))
+ENGINE = InnoDB;
+
+INSERT INTO `administrador` (`Matricula_Administrador`, `Password`, `idPersona`, `idCategoria`, `idNivel_Academico`, `idNo_Autorizado`) VALUES ('192h17020','123456', '1', '1', '1', '1');
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
