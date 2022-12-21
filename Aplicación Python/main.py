@@ -3,7 +3,12 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 import mysql.connector
+from PIL import Image, ImageTk
+import cv2
+import imutils
+import uuid
 
+root = tk.Tk()
 #Función para inicar sesión del administrador
 def _iniciar_sesion():
   print("Iniciar sesión")
@@ -15,6 +20,37 @@ def _ayuda():
 #Función Acerca de
 def _acerca_de():
   print("Acerca de")
+
+#Finciones para iniciar video
+video = None
+def video_stream():
+  global video
+  video = cv2.VideoCapture(0)
+  iniciar()
+
+def iniciar():
+  global video
+  ret, frame = video.read()
+  if ret==True:
+    frame=imutils.resize(frame, width=640)
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(frame)
+    image = ImageTk.PhotoImage(image=img)
+    etiq_de_video.configure(image=image)
+    etiq_de_video.image = image
+    etiq_de_video.after(10, iniciar)
+
+def tomar_Foto():
+  global video
+  video = cv2.VideoCapture(0)
+  ret, frame = video.read()
+  if ret == True:
+    nombre_foto = str(uuid.uuid4()) + ".png"
+    cv2.imwrite(nombre_foto, frame)
+    print("Foto tomada correctamente con el nombre {}".format(nombre_foto))
+  else:
+    print("Error al acceder a la cámara")
+  video.release()
 
 #Función principal para centrar la ventana
 def centrarPantalla(windows, ancho, alto):
@@ -45,13 +81,19 @@ def centrarPantalla(windows, ancho, alto):
   barraMenu.add_cascade(label="Administrador", menu = administrador)
   barraMenu.add_cascade(label="Ayuda", menu= ayuda)
 
+#etiquetas para marcar el video
+etiq_de_video = tk.Label(root, bg="black")
+etiq_de_video.place(x=170, y=0)
+
+boton = tk.Button(root, text="Tomar foto", bg="blue", relief="flat", cursor="hand2", command=tomar_Foto, width=15, height=2, font=("Calisto MT", 12, "bold"))
+boton.place(x=405, y=505)
 
 ancho = 1000
-alto = 500
+alto = 600
 
 
 #Ejecutando el código
-root = tk.Tk()
+video_stream()
 root.geometry("%dx%d" % (ancho, alto))
 root.update()
 centrarPantalla(root, ancho, alto)
