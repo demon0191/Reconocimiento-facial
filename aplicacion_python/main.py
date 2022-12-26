@@ -1,17 +1,19 @@
 #Importando librerias necesarias para trabajar
 from tkinter import *
-from tkinter import ttk
 import tkinter as tk
 import mysql.connector
 from PIL import Image, ImageTk
 import cv2
 import imutils
 import uuid
+from conexion import conexion
 
 root = tk.Tk()
 #Función para inicar sesión del administrador
 def _iniciar_sesion():
-  print("Iniciar sesión")
+  root.iconify()
+  from administrador import iniciar_sesion as adm
+  
 
 #Función de ayuda
 def _ayuda():
@@ -62,24 +64,24 @@ def centrarPantalla(windows, ancho, alto):
 
   root.geometry(f"+{x}+{y}")
 
-  #root.minsize(1000,500)
-  root.title("Sistema de autenticación")
-  root.resizable(0,0)
-  
-  #Creando la barra de menu de opciones
-  barraMenu = Menu(root, tearoff=0)
-  root.config(menu=barraMenu)
+#root.minsize(1000,500)
+root.title("Sistema de autenticación")
+root.resizable(0,0)
 
-  #Crear los menus
-  administrador = Menu(barraMenu, tearoff=0)
-  administrador.add_command(label="Iniciar sesión", command=_iniciar_sesion)
+#Creando la barra de menu de opciones
+barraMenu = Menu(root, tearoff=0)
+root.config(menu=barraMenu)
 
-  ayuda = Menu(barraMenu, tearoff=0)
-  ayuda.add_command(label="Ayuda", command=_ayuda)
-  ayuda.add_command(label="Acerca de", command=_acerca_de)
+#Crear los menus
+administrador = Menu(barraMenu, tearoff=0)
+administrador.add_command(label="Iniciar sesión", command=_iniciar_sesion)
 
-  barraMenu.add_cascade(label="Administrador", menu = administrador)
-  barraMenu.add_cascade(label="Ayuda", menu= ayuda)
+ayuda = Menu(barraMenu, tearoff=0)
+ayuda.add_command(label="Ayuda", command=_ayuda)
+ayuda.add_command(label="Acerca de", command=_acerca_de)
+
+barraMenu.add_cascade(label="Administrador", menu = administrador)
+barraMenu.add_cascade(label="Ayuda", menu= ayuda)
 
 #etiquetas para marcar el video
 etiq_de_video = tk.Label(root, bg="black")
