@@ -12,16 +12,18 @@ root = tk.Tk()
 #Función para inicar sesión del administrador
 def _iniciar_sesion():
   root.iconify()
-  from administrador import iniciar_sesion as adm
+  from administrador import iniciar_sesion
   
 
 #Función de ayuda
 def _ayuda():
-  print("Ayuda")
+  root.iconify()
+  from ayuda import ayuda
   
 #Función Acerca de
 def _acerca_de():
-  print("Acerca de")
+  root.iconify()
+  from ayuda import acerca_de
 
 #Finciones para iniciar video
 video = None
