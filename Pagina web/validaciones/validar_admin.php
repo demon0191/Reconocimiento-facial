@@ -12,7 +12,7 @@ $result = mysqli_query($conexion, "SELECT * from administrador where Matricula_A
 if($row = mysqli_fetch_array($result)){
 if($row['Password'] == $pass){
 session_start();
-$_SESSION['Matricula_administrador'] = $usuario;
+$_SESSION['Matricula_Administrador'] = $usuario;
 header("Location:../administrador/admin.php");
 }else{
 echo "<script>alert('Usuario o contraseña incorrectos'); window.location.assign('../administrador/login_admin.php') </script>";
