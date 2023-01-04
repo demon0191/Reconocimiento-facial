@@ -3,6 +3,12 @@ require("../conexion/conexion.php");
 session_start();
 $usuario = $_SESSION['Matricula_Administrador'];
 $sqlDatosAlum = "SELECT * from alumnos, persona, nivel_academico WHERE alumnos.idPersona=persona.idPersona and alumnos.idNivel_Academico=nivel_academico.idNivel_Academico";
+
+/*$sqlAlum="SELECT * from alumnos, persona, nivel_academico WHERE alumnos.idPersona=persona.idPersona and alumnos.idNivel_Academico=nivel_academico.idNivel_Academico and alumnos.Matricula_Alumno='".$matricula."'";*/
+
+$sqlNivelAca="SELECT * FROM nivel_academico";
+$dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
+
 ?>
 <html lang="es">
 
@@ -111,7 +117,7 @@ $sqlDatosAlum = "SELECT * from alumnos, persona, nivel_academico WHERE alumnos.i
   <div class="container-modal">
     <div class="content-modal">
       <div class="agregar">
-        <form action="#" method="post" class="formulario">
+        <form action="../opciones/agregar_alum.php" method="post" class="formulario">
           <h1>Agregar alumnos</h1>
           <h4>Matricula:</h4>
           <input type="text" placeholder="Matricula" name="matricula">
@@ -128,11 +134,27 @@ $sqlDatosAlum = "SELECT * from alumnos, persona, nivel_academico WHERE alumnos.i
           <h4>Semestre:</h4>
           <input type="text" placeholder="7" name="semestre">
           <h4>Nivel académico:</h4>
-          <input type="text" placeholder="Licenciatura" name="nivel">
+          <select id="nivel-Aca" name="selectNivelAca" class="form-control form-control-sm">
+            <option selected>Seleccione el nivel</option>
+            <?php
+                      while ($dataSelectNivel = mysqli_fetch_array($dataNivelAca)) { ?>
+            <option>
+              <?php 
+                          echo utf8_encode($dataSelectNivel["Nombre_nivel"]); 
+                          
+                          ?>
+            </option>
+            <?php 
+
+                  } ?>
+            <input type="text" placeholder="Licenciatura" name="nivel">
+
+          </select>
+
           <!--categoria se pondra en el action-->
           <h4>Profesor:</h4>
           <input type="text" placeholder="PROF_1" name="matriculap"><br>
-          <input type="submit" value="Ingresar" class="button">
+          <input type="submit" value="Ingresar" class="button" onclick="passRowToForm()">
         </form>
       </div>
       <div class="btn-cerrar">
@@ -145,7 +167,7 @@ $sqlDatosAlum = "SELECT * from alumnos, persona, nivel_academico WHERE alumnos.i
   <input type="checkbox" id="btn-modal2">
   <div class="container-modal2">
     <div class="content-modal2">
-      <form action="#" method="post" class="formulario">
+      <form action="../opciones/editar_alum.php" method="post" class="formulario">
         <h1>Editar alumnos</h1>
         <h4>Matricula:</h4>
         <input type="text" placeholder="Matricula" name="matricula">
@@ -178,21 +200,14 @@ $sqlDatosAlum = "SELECT * from alumnos, persona, nivel_academico WHERE alumnos.i
   <input type="checkbox" id="btn-modal3">
   <div class="container-modal3">
     <div class="content-modal3">
-      <form action="#" method="post" class="formulario">
+      <form action="../opciones/eliminar_alum.php" method="post" class="formulario">
         <h1>Eliminar alumnos</h1>
         <h4>Matricula:</h4>
-        <input type="text" placeholder="Matricula" name="matricula">
-        <h4>Nombre completo:</h4>
-        <input type="text" placeholder="Adry Moisés" name="nombre">
-        <h4>Carrera:</h4>
-        <input type="text" placeholder="Ing. en Sistemas Computacionales" name="carrera">
-        <h4>Semestre:</h4>
-        <input type="text" placeholder="7" name="semestre">
-        <h4>Nivel académico:</h4>
-        <input type="text" placeholder="Licenciatura" name="nivel">
-        <!--categoria se pondra en el action-->
-        <h4>Profesor:</h4>
-        <input type="text" placeholder="PROF_1" name="matriculap"><br>
+        <input type="text" placeholder="Matricula" name="matricula"><br>
+
+
+
+
         <input type="submit" value="Ingresar" class="button">
       </form>
       <div class="btn-cerrar3">
@@ -203,7 +218,46 @@ $sqlDatosAlum = "SELECT * from alumnos, persona, nivel_academico WHERE alumnos.i
   </div>
 
 
-
 </body>
+
+<script>
+$(function() {
+
+  $('#btnEnviar').on('click', function(e) {
+    e.preventDefault();
+
+    var ibxUserTwo = document.getElementById('txtUser2');
+    var toPost = ibxUserTwo.value;
+
+    var mUrl = 'archivoServidor.php';
+
+    var mData = {
+      userTwo: toPost
+    };
+    var mAjax = $.ajax({
+      url: mUrl,
+      method: 'POST',
+      data: mData,
+      dataType: 'html'
+    });
+
+    /*
+       Esta parte se ejecuta cuando la petición tiene éxito
+       Aquí response será el contenido de lo que responda el servidor
+       Simplemente lo pondremos en el contenedor cuyo id es txtOutput
+       Se pueden hacer cosas más complejas, como responder un JSON desde el servidor
+       y evaluarlo en esta parte, mostrando diferente tipo de contenido
+    */
+    mAjax.done(function(response) {
+      $("#txtOutput").html(response);
+    });
+    /* Esta parte controla los posibles fallos*/
+    mAjax.fail(function(jqXHR, textStatus) {
+      alert("Falló la petición: " + textStatus);
+    });
+
+  });
+});
+</script>
 
 </html>
