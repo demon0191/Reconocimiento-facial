@@ -22,7 +22,7 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
       <a class="active" href="admin.php">Administrador</a>
       <a href="admin_alumnos.php">Alumnos</a>
       <a href="admin_profesores.php">Profesores</a>
-      <a href="admin_no_autorizados.php">No autorizados</a>
+      <a href="admin_reportes.php">Reportes</a>
       <a href="../index.html">Cerrar sesión</a>
     </div>
   </div>
@@ -85,7 +85,7 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
             <div class="col col-1" data-label="Matricula"><?php echo $row["Matricula_Profesor"]; ?></div>
             <div class="col col-2" data-label="Nombre"><?php echo $row["ApellidoP"];?> <?php echo $row["ApellidoM"];?>
               <?php echo $row["Nombre"]; ?></div>
-            <div class="col col-3" data-label="Carrera"><?php echo $row["Email"]; ?></div>
+            <div class="col col-3" data-label="Email"><?php echo $row["Email"]; ?></div>
             <div class="col col-5" data-label="Nivel Académico"><?php echo $row["Nombre_nivel"]; ?></div>
           </li>
 
@@ -105,7 +105,7 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
   <div class="container-modal">
     <div class="content-modal">
       <div class="agregar">
-        <form action="#" method="post" class="formulario">
+        <form action="../opciones/agregar_prof.php" method="post" class="formulario">
           <h1>Agregar profesor</h1>
           <h4>Matricula:</h4>
           <input type="text" placeholder="Matricula" name="matricula">
@@ -136,7 +136,7 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
   <input type="checkbox" id="btn-modal2">
   <div class="container-modal2">
     <div class="content-modal2">
-      <form action="#" method="post" class="formulario">
+      <form action="../opciones/editar_prof.php" method="post" class="formulario">
         <h1>Editar profesor</h1>
         <h4>Matricula:</h4>
         <input type="text" placeholder="Matricula" name="matricula">
@@ -166,18 +166,11 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
   <input type="checkbox" id="btn-modal3">
   <div class="container-modal3">
     <div class="content-modal3">
-      <form action="#" method="post" class="formulario">
+      <form action="../opciones/eliminar_prof.php" method="post" class="formulario">
         <h1>Eliminar profesores</h1>
         <h4>Matricula:</h4>
         <input type="text" placeholder="Matricula" name="matricula">
-        <h4>Nombre completo:</h4>
-        <input type="text" placeholder="Adry Moisés" name="nombre">
-        <h4>Email:</h4>
-        <input type="text" placeholder="Ing. en Sistemas Computacionales" name="email">
 
-        <h4>Nivel académico:</h4>
-        <input type="text" placeholder="Licenciatura" name="nivel">
-        <!--categoria se pondra en el action-->
         <br>
         <input type="submit" value="Ingresar" class="button">
       </form>
@@ -187,7 +180,41 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
     </div>
     <label for="btn-modal3" class="cerrar-modal3"></label>
   </div>
+  <footer id="footer" class="footer-1">
+    <div class="main-footer widgets-dark typo-light">
+      <div class="container">
+        <div class="row">
 
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="widget subscribe no-box">
+              <h5 class="widget-title">LABORATORIO DACB<span></span></h5>
+              <p>Acerca de la compañía, una pequeña descripción irá aquí.</p>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="widget no-box">
+              <h5 class="widget-title">Enlaces rápidos<span></span></h5>
+              <ul class="thumbnail-widget">
+                <li>
+                  <div class="thumb-content"><a href="#.">Inicio</a></div>
+                </li>
+                <li>
+                  <div class="thumb-content"><a href="#.">Ayuda</a></div>
+                </li>
+                <li>
+                  <div class="thumb-content"><a href="../ayuda/acerca_de.php">Acerca de</a></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+
+            <div class="widget no-box">
+              <h5 class="widget-title">Reportar fallas<span></span></h5>
+
+              <p><a href="mailto:info@domain.com" title="glorythemes">info@</a></p>
+  </footer>
 </body>
 
 </html>

@@ -34,7 +34,7 @@ echo '</script>';
     
     
   }else{
-echo "<script>alert('Datos de alumno editado pero no datos personales'); window.location.assign('../administrador/admin_alumnos.php') </script>";
+echo "<script>alert('Datos de alumno editados pero no datos personales'); window.location.assign('../administrador/admin_alumnos.php') </script>";
 echo '</script>'; 
   }
     

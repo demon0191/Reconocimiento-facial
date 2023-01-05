@@ -25,7 +25,7 @@ $sqlDatosAdmin3 = "SELECT * FROM administrador, nivel_academico WHERE administra
       <a class="active" href="admin.php">Administrador</a>
       <a href="admin_alumnos.php">Alumnos</a>
       <a href="admin_profesores.php">Profesores</a>
-      <a href="admin_no_autorizados.php">No autorizados</a>
+      <a href="admin_reportes.php">Reportes</a>
       <a href="../index.html">Cerrar sesión</a>
     </div>
   </div>
