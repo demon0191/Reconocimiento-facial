@@ -37,7 +37,7 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
       <div class='swanky_wrapper__content'>
         <ul>
           <label for="btn-modal">Asistencia de profesores</label>
-          <label for="btn-modal">Acceso total del mes</label>
+          <label for="btn-modal2">Acceso total del mes</label>
         </ul>
       </div>
     </label>
@@ -49,8 +49,8 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
       <div class='bar'></div>
       <div class='swanky_wrapper__content'>
         <ul>
-          <label for="btn-modal2">Listado del mes</label>
-          <label for="btn-modal2">Listado total</label>
+          <label for="btn-modal3">Listado del mes</label>
+          <label for="btn-modal4">Listado total</label>
         </ul>
       </div>
     </label>
@@ -62,7 +62,7 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
       <div class='bar'></div>
       <div class='swanky_wrapper__content'>
         <ul>
-          <label for="btn-modal3">Reporte de quejas</label>
+          <label for="btn-modal5">Reporte de fallos</label>
         </ul>
       </div>
     </label>
@@ -110,26 +110,10 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
   <div class="container-modal">
     <div class="content-modal">
       <div class="agregar">
-        <form action="../opciones/agregar_prof.php" method="post" class="formulario">
-          <h1>Agregar profesor</h1>
-          <h4>Matricula:</h4>
-          <input type="text" placeholder="Matricula" name="matricula">
-          <h4>Apellido paterno:</h4>
-          <input type="text" placeholder="Arias" name="apellidop">
-          <h4>Apellido materno:</h4>
-          <input type="text" placeholder="Morales" name="apellidom">
-          <h4>Nombre completo:</h4>
-          <input type="text" placeholder="Adry Moisés" name="nombre">
-          <h4>Edad:</h4>
-          <input type="text" placeholder="21" name="edad">
-          <h4>Email:</h4>
-          <input type="text" placeholder="ejemplo@email.com" name="email">
-          <h4>Nivel académico:</h4>
-          <input type="text" placeholder="Licenciatura" name="nivel">
-          <!--categoria se pondra en el action-->
-          <br>
-          <input type="submit" value="Ingresar" class="button">
-        </form>
+        <h2>Asistencia diaria de profesores</h2>
+        <p class="text-report">Dar clic en el botón de descarga para descargar la asistencia semanal de los profesores
+        </p>
+        <center><button class="descarga">Descargar</button></center>
       </div>
       <div class="btn-cerrar">
         <label for="btn-modal">Cerrar</label>
@@ -141,26 +125,9 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
   <input type="checkbox" id="btn-modal2">
   <div class="container-modal2">
     <div class="content-modal2">
-      <form action="../opciones/editar_prof.php" method="post" class="formulario">
-        <h1>Editar profesor</h1>
-        <h4>Matricula:</h4>
-        <input type="text" placeholder="Matricula" name="matricula">
-        <h4>Apellido paterno:</h4>
-        <input type="text" placeholder="Arias" name="apellidop">
-        <h4>Apellido materno:</h4>
-        <input type="text" placeholder="Morales" name="apellidom">
-        <h4>Nombre completo:</h4>
-        <input type="text" placeholder="Adry Moisés" name="nombre">
-        <h4>Edad:</h4>
-        <input type="text" placeholder="21" name="edad">
-        <h4>Email:</h4>
-        <input type="text" placeholder="ejemplo@email.com" name="email">
-        <h4>Nivel académico:</h4>
-        <input type="text" placeholder="Licenciatura" name="nivel">
-        <!--categoria se pondra en el action-->
-        <br>
-        <input type="submit" value="Ingresar" class="button">
-      </form>
+      <h2>Acceso total del mes</h2>
+      <p class="text-report">Dar clic en el botón de descarga para descargar el registro de acceso total en el mes</p>
+      <center><button class="descarga">Descargar</button></center>
       <div class="btn-cerrar2">
         <label for="btn-modal2">Cerrar</label>
       </div>
@@ -171,20 +138,46 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
   <input type="checkbox" id="btn-modal3">
   <div class="container-modal3">
     <div class="content-modal3">
-      <form action="../opciones/eliminar_prof.php" method="post" class="formulario">
-        <h1>Eliminar profesores</h1>
-        <h4>Matricula:</h4>
-        <input type="text" placeholder="Matricula" name="matricula">
-
-        <br>
-        <input type="submit" value="Ingresar" class="button">
-      </form>
+      <h2>Reporte mensual de ingresos no autorizados</h2>
+      <p class="text-report">Dar clic en el botón de descarga para descargar el reporte mensual de los ingresos no
+        autorizados</p>
+      <center><button class="descarga">Descargar</button></center>
       <div class="btn-cerrar3">
         <label for="btn-modal3">Cerrar</label>
       </div>
     </div>
     <label for="btn-modal3" class="cerrar-modal3"></label>
   </div>
+
+  <input type="checkbox" id="btn-modal4">
+  <div class="container-modal4">
+    <div class="content-modal4">
+      <h2>Reporte de ingresos no autorizados</h2>
+      <p class="text-report">Dar clic en el botón de descarga para descargar el reporte de todos los ingresos no
+        autorizados que se han
+        registrado en el sistema</p>
+      <center><button class="descarga">Descargar</button></center>
+      <div class="btn-cerrar4">
+        <label for="btn-modal4">Cerrar</label>
+      </div>
+    </div>
+    <label for="btn-modal4" class="cerrar-modal4"></label>
+  </div>
+
+  <input type="checkbox" id="btn-modal5">
+  <div class="container-modal5">
+    <div class="content-modal5">
+      <h2>Reporte de fallos</h2>
+      <p class="text-report">Dar clic en el botón de descarga para descargar el reporte de fallos</p>
+      <center><button class="descarga">Descargar</button></center>
+      <div class="btn-cerrar5">
+        <label for="btn-modal5">Cerrar</label>
+      </div>
+    </div>
+    <label for="btn-modal5" class="cerrar-modal5"></label>
+  </div>
+
+
   <footer id="footer" class="footer-1">
     <div class="main-footer widgets-dark typo-light">
       <div class="container">
