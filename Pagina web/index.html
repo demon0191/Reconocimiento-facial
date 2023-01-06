@@ -32,7 +32,7 @@
 <body>
   <div class="header">
 
-    <a href="#default" class="logo">Laboratorio DACB</a>
+    <a href="index.html" class="logo">Laboratorio DACB</a>
     <div class="header-right">
       <a class="active" href="administrador/login_admin.php">Administrador</a>
       <a href="profesores/login_profesores.php">Profesores</a>
@@ -84,13 +84,13 @@
               <h5 class="widget-title">Enlaces rápidos<span></span></h5>
               <ul class="thumbnail-widget">
                 <li>
-                  <div class="thumb-content"><a href="#.">Inicio</a></div>
+                  <div class="thumb-content"><a href="index.html">Inicio</a></div>
                 </li>
                 <li>
-                  <div class="thumb-content"><a href="#.">Ayuda</a></div>
+                  <div class="thumb-content"><a href="ayuda/ayuda.php">Ayuda</a></div>
                 </li>
                 <li>
-                  <div class="thumb-content"><a href="../ayuda/acerca_de.php">Acerca de</a></div>
+                  <div class="thumb-content"><a href="ayuda/acerca_de.php">Acerca de</a></div>
                 </li>
               </ul>
             </div>
@@ -99,8 +99,13 @@
 
             <div class="widget no-box">
               <h5 class="widget-title">Reportar fallas<span></span></h5>
-
-              <p><a href="mailto:info@domain.com" title="glorythemes">info@</a></p>
+              <ul class="thumbnail-widget">
+                <li>
+                  <div class="thumb-content"><a href="fallos/fallos.php">Fallo</a></div>
+                </li>
+              </ul>
+              <p><a href="mailto:adrymoises.arias.morales@gmail.com"
+                  title="glorythemes">adrymoises.arias.morales@gmail.com</a></p>
   </footer>
 
 
@@ -125,7 +130,7 @@
 
     (async () => {
       console.log("Cargando modelo...");
-      modelo = await tf.loadLayersModel("model.json");
+      modelo = await tf.loadLayersModel("modelo/model.json");
       console.log("Modelo cargado...");
     })();
 
@@ -214,7 +219,7 @@
         var resultados = modelo.predict(tensor4).dataSync();
         var mayorIndice = resultados.indexOf(Math.max.apply(null, resultados));
 
-        var clases = ['Gato', 'Perro'];
+        var clases = ['Acceso denegado', 'Acceso consedido'];
         console.log("Prediccion", clases[mayorIndice]);
         document.getElementById("resultado").innerHTML = clases[mayorIndice];
       }
