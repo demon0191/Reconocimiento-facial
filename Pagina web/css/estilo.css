@@ -127,8 +127,10 @@ transition: all 250ms ease-in-out 0s;
 .content-body{
    width: max-content;
   height: auto;
-  background: blue;
-  border-radius: 2%;
+  background: #126ca1;
+  border-radius: 3%;
+margin: 2%;
+
 }
 .titulo-datos{
   font-size: 23px;

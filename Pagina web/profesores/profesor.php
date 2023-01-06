@@ -18,7 +18,7 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, categoria, nivel_academico W
 
 <body>
   <div class="header">
-    <a href="admin.php" class="logo">Panel profesor</a>
+    <a href="profesor.php" class="logo">Panel profesor</a>
     <div class="header-right">
       <a class="active" href="profesor.php">Profesor</a>
       <a href="prof_alumnos.php">Alumnos</a>
@@ -85,10 +85,10 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, categoria, nivel_academico W
               <h5 class="widget-title">Enlaces rápidos<span></span></h5>
               <ul class="thumbnail-widget">
                 <li>
-                  <div class="thumb-content"><a href="#.">Inicio</a></div>
+                  <div class="thumb-content"><a href="../index.html">Inicio</a></div>
                 </li>
                 <li>
-                  <div class="thumb-content"><a href="#.">Ayuda</a></div>
+                  <div class="thumb-content"><a href="../ayuda/ayuda.php">Ayuda</a></div>
                 </li>
                 <li>
                   <div class="thumb-content"><a href="../ayuda/acerca_de.php">Acerca de</a></div>
@@ -100,8 +100,13 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, categoria, nivel_academico W
 
             <div class="widget no-box">
               <h5 class="widget-title">Reportar fallas<span></span></h5>
-
-              <p><a href="mailto:info@domain.com" title="glorythemes">info@</a></p>
+              <ul class="thumbnail-widget">
+                <li>
+                  <div class="thumb-content"><a href="../fallos/fallos.php">Fallo</a></div>
+                </li>
+              </ul>
+              <p><a href="mailto:adrymoises.arias.morales@gmail.com"
+                  title="glorythemes">adrymoises.arias.morales@gmail.com</a></p>
   </footer>
 
 </body>

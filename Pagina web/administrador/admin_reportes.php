@@ -32,7 +32,7 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
   <div class='swanky_wrapper'>
     <input id='Dashboard' name='radio' type='radio'>
     <label for='Dashboard'>
-      <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/dash.png'>
+      <img src='../img/Asistencia.png'>
       <span>Asistencia</span>
       <div class='lil_arrow'></div>
       <div class='bar'></div>
@@ -45,7 +45,7 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
     </label>
     <input id='Sales' name='radio' type='radio'>
     <label for='Sales'>
-      <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/del.png'>
+      <img src='../img/No_autorizados.png'>
       <span>No autorizados</span>
       <div class='lil_arrow'></div>
       <div class='bar'></div>
@@ -58,7 +58,7 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
     </label>
     <input id='Messages' name='radio' type='radio'>
     <label for='Messages'>
-      <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/mess.png'>
+      <img src='../img/Quejas.png'>
       <span>Quejas</span>
       <div class='lil_arrow'></div>
       <div class='bar'></div>
@@ -197,10 +197,10 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
               <h5 class="widget-title">Enlaces rápidos<span></span></h5>
               <ul class="thumbnail-widget">
                 <li>
-                  <div class="thumb-content"><a href="#.">Inicio</a></div>
+                  <div class="thumb-content"><a href="../index.html">Inicio</a></div>
                 </li>
                 <li>
-                  <div class="thumb-content"><a href="#.">Ayuda</a></div>
+                  <div class="thumb-content"><a href="../ayuda/ayuda.php">Ayuda</a></div>
                 </li>
                 <li>
                   <div class="thumb-content"><a href="../ayuda/acerca_de.php">Acerca de</a></div>
@@ -212,8 +212,13 @@ $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE prof
 
             <div class="widget no-box">
               <h5 class="widget-title">Reportar fallas<span></span></h5>
-
-              <p><a href="mailto:info@domain.com" title="glorythemes">info@</a></p>
+              <ul class="thumbnail-widget">
+                <li>
+                  <div class="thumb-content"><a href="../fallos/fallos.php">Fallo</a></div>
+                </li>
+              </ul>
+              <p><a href="mailto:adrymoises.arias.morales@gmail.com"
+                  title="glorythemes">adrymoises.arias.morales@gmail.com</a></p>
   </footer>
 </body>
 <?php

@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/estilo.css">
+  <link rel="stylesheet" href="../css/botones.css">
 </head>
 
 <body>
@@ -24,9 +25,16 @@
 
 
   <main>
-    <div class="body-content">
-      hola
-    </div>
+    <center>
+      <div class="content-body">
+        <h1>Descarga nuestros manuales</h1>
+        <a href="#" download="Acme Documentation (ver. 2.0.1).txt" class="descarga">Manual técnico</a><br>
+        <a href="#" download="Acme Documentation (ver. 2.0.1).txt" class="descarga">Manual de administrador</a><br>
+        <a href="#" download="Acme Documentation (ver. 2.0.1).txt" class="descarga">Manual de Profesor</a><br>
+        <a href="#" download="Acme Documentation (ver. 2.0.1).txt" class="descarga">Manual de alumno</a><br>
+
+      </div>
+    </center>
   </main>
 
   <footer id="footer" class="footer-1">
@@ -63,7 +71,7 @@
               <h5 class="widget-title">Reportar fallas<span></span></h5>
               <ul class="thumbnail-widget">
                 <li>
-                  <div class="thumb-content"><a href="fallos/fallos.php">Fallo</a></div>
+                  <div class="thumb-content"><a href="../fallos/fallos.php">Fallo</a></div>
                 </li>
               </ul>
               <p><a href="mailto:adrymoises.arias.morales@gmail.com"

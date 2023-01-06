@@ -28,6 +28,7 @@ body {
   margin-top: 150px;
   padding: 3px;
   position: relative;
+  
 }
 .formulario::after {
   position: absolute;
@@ -48,13 +49,15 @@ h1 {
 input[type="text"],
 input[type="password"] {
   font-size: 20px;
-  width: 82%;
+  width: 100%;
   padding: 10px;
   border: none;
+  
 }
 .input-contenedor {
   margin-bottom: 15px;
   border: 1px solid #aaa;
+  text-decoration-line: none;
 }
 .icon {
   min-width: 50px;
@@ -70,6 +73,7 @@ input[type="password"] {
   padding: 15px 20px;
   border-radius: 5px;
   cursor: pointer;
+  text-decoration-line: none;
 }
 .button:hover {
   background: cadetblue;

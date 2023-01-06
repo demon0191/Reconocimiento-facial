@@ -24,9 +24,16 @@
 
 
   <main>
-    <div class="body-content">
-      hola
-    </div>
+    <center>
+      <div class="content-body">
+        <h1>Acerca de</h1>
+        <h4>Datos de la empresa</h4>
+        <h4>Datos de la divisón</h4>
+        <h4>Misión</h4>
+        <h4>Visión</h4>
+        <h4>entre otros</h4>
+      </div>
+    </center>
   </main>
 
   <footer id="footer" class="footer-1">
@@ -63,7 +70,7 @@
               <h5 class="widget-title">Reportar fallas<span></span></h5>
               <ul class="thumbnail-widget">
                 <li>
-                  <div class="thumb-content"><a href="fallos/fallos.php">Fallo</a></div>
+                  <div class="thumb-content"><a href="../fallos/fallos.php">Fallo</a></div>
                 </li>
               </ul>
               <p><a href="mailto:adrymoises.arias.morales@gmail.com"

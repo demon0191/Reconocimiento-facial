@@ -14,7 +14,7 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
 <html lang="es">
 
 <head>
-  <title>Administrador</title>
+  <title>Profesor</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -26,7 +26,7 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
   <div class="header">
     <a href="profesor.php" class="logo">Panel profesor</a>
     <div class="header-right">
-      <a class="active" href="admin.php">Profesor</a>
+      <a class="active" href="profesor.php">Profesor</a>
       <a href="prof_alumnos.php">Alumnos</a>
       <a href="../index.html">Cerrar sesión</a>
     </div>
@@ -34,7 +34,7 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
   <div class='swanky_wrapper'>
     <input id='Dashboard' name='radio' type='radio'>
     <label for='Dashboard'>
-      <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/dash.png'>
+      <img src='../img/asistencia.png'>
       <span>Asistencia</span>
       <div class='lil_arrow'></div>
       <div class='bar'></div>
@@ -49,7 +49,7 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
     </label>
     <input id='Sales' name='radio' type='radio'>
     <label for='Sales'>
-      <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/del.png'>
+      <img src='../img/Lista.png'>
       <span>Lista</span>
       <div class='lil_arrow'></div>
       <div class='bar'></div>
@@ -164,10 +164,10 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
               <h5 class="widget-title">Enlaces rápidos<span></span></h5>
               <ul class="thumbnail-widget">
                 <li>
-                  <div class="thumb-content"><a href="#.">Inicio</a></div>
+                  <div class="thumb-content"><a href="../index.html">Inicio</a></div>
                 </li>
                 <li>
-                  <div class="thumb-content"><a href="#.">Ayuda</a></div>
+                  <div class="thumb-content"><a href="../ayuda/ayuda.php">Ayuda</a></div>
                 </li>
                 <li>
                   <div class="thumb-content"><a href="../ayuda/acerca_de.php">Acerca de</a></div>
@@ -179,8 +179,13 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
 
             <div class="widget no-box">
               <h5 class="widget-title">Reportar fallas<span></span></h5>
-
-              <p><a href="mailto:info@domain.com" title="glorythemes">info@</a></p>
+              <ul class="thumbnail-widget">
+                <li>
+                  <div class="thumb-content"><a href="../fallos/fallos.php">Fallo</a></div>
+                </li>
+              </ul>
+              <p><a href="mailto:adrymoises.arias.morales@gmail.com"
+                  title="glorythemes">adrymoises.arias.morales@gmail.com</a></p>
   </footer>
 </body>
 
