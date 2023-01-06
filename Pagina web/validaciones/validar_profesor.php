@@ -12,7 +12,7 @@ $result = mysqli_query($conexion, "SELECT * from profesores where Matricula_Prof
 if($row = mysqli_fetch_array($result)){
 if($row['Password'] == $pass){
 session_start();
-$_SESSION['Matricula_administrador'] = $usuario;
+$_SESSION['Matricula_Profesor'] = $usuario;
 header("Location:../profesores/profesor.php");
 }else{
 echo "<script>alert('Usuario o contraseña incorrectos'); window.location.assign('../profesores/login_profesores.php') </script>";

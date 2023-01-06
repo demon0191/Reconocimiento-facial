@@ -254,44 +254,4 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
   </footer>
 </body>
 
-<script>
-$(function() {
-
-  $('#btnEnviar').on('click', function(e) {
-    e.preventDefault();
-
-    var ibxUserTwo = document.getElementById('txtUser2');
-    var toPost = ibxUserTwo.value;
-
-    var mUrl = 'archivoServidor.php';
-
-    var mData = {
-      userTwo: toPost
-    };
-    var mAjax = $.ajax({
-      url: mUrl,
-      method: 'POST',
-      data: mData,
-      dataType: 'html'
-    });
-
-    /*
-       Esta parte se ejecuta cuando la petición tiene éxito
-       Aquí response será el contenido de lo que responda el servidor
-       Simplemente lo pondremos en el contenedor cuyo id es txtOutput
-       Se pueden hacer cosas más complejas, como responder un JSON desde el servidor
-       y evaluarlo en esta parte, mostrando diferente tipo de contenido
-    */
-    mAjax.done(function(response) {
-      $("#txtOutput").html(response);
-    });
-    /* Esta parte controla los posibles fallos*/
-    mAjax.fail(function(jqXHR, textStatus) {
-      alert("Falló la petición: " + textStatus);
-    });
-
-  });
-});
-</script>
-
 </html>

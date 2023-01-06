@@ -125,11 +125,10 @@ transition: all 250ms ease-in-out 0s;
 }
 /*datos del admin*/
 .content-body{
-    width: max-content;
-    height: auto;
+   width: max-content;
+  height: auto;
   background: blue;
   border-radius: 2%;
-  
 }
 .titulo-datos{
   font-size: 23px;

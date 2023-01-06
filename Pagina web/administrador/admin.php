@@ -2,9 +2,7 @@
 require("../conexion/conexion.php");
 session_start();
 $usuario = $_SESSION['Matricula_Administrador'];
-$sqlDatosAdmin1 = "SELECT * FROM administrador, persona WHERE administrador.idPersona=persona.idPersona and administrador.Matricula_Administrador='".$usuario."'";
-$sqlDatosAdmin2 = "SELECT * FROM administrador, categoria WHERE administrador.idCategoria=categoria.idCategoria and administrador.Matricula_Administrador='".$usuario."'";
-$sqlDatosAdmin3 = "SELECT * FROM administrador, nivel_academico WHERE administrador.idNivel_Academico=nivel_academico.idNivel_Academico and administrador.Matricula_Administrador='".$usuario."'";
+$sqlDatosAdmin = "SELECT * FROM administrador, persona, nivel_academico, categoria WHERE administrador.idPersona=persona.idPersona and administrador.idCategoria=categoria.idCategoria and administrador.idNivel_Academico=nivel_academico.idNivel_Academico and administrador.Matricula_Administrador='".$usuario."'";
 ?>
 
 <html lang="es">
@@ -32,52 +30,37 @@ $sqlDatosAdmin3 = "SELECT * FROM administrador, nivel_academico WHERE administra
 
   <center>
     <div class="content-body">
-      <?php $resultadoDatos = mysqli_query($conexion, $sqlDatosAdmin1);
+      <?php $resultadoDatos = mysqli_query($conexion, $sqlDatosAdmin);
         while ($row = mysqli_fetch_assoc($resultadoDatos)) { ?>
       <h1 class="saludo-admin">Bienvenido administrador <?php echo $row["Nombre"]; ?></h1>
       <?php }
 
         ?>
       <div class="datos-admin1">
-        <?php $resultadoDatos = mysqli_query($conexion, $sqlDatosAdmin1);
+        <?php $resultadoDatos = mysqli_query($conexion, $sqlDatosAdmin);
         while ($row = mysqli_fetch_assoc($resultadoDatos)) { ?>
 
 
         <h4 class="titulo-datos">Nombre: </h4>
         <p class="datos-datos">
           <?php echo $row["ApellidoP"];?> <?php echo $row["ApellidoM"]; ?> <?php echo $row["Nombre"]; ?></p>
-        <br>
+
         <h4 class="titulo-datos">Matricula: </h4>
-        <p class="datos-datos"><?php echo $row["Matricula_Administrador"]; ?></p><br>
-
-        <?php }
-
-        ?>
-      </div>
-      <div class="datos-admin2">
-        <?php $resultadoDatos2 = mysqli_query($conexion, $sqlDatosAdmin2);
-        while ($row2 = mysqli_fetch_assoc($resultadoDatos2)) { ?>
+        <p class="datos-datos"><?php echo $row["Matricula_Administrador"]; ?></p>
         <h4 class="titulo-datos">Categoria: </h4>
-        <p class="datos-datos"><?php echo $row2["Nombre"]; ?></p>
+        <p class="datos-datos"><?php echo $row["Nombre_categoria"]; ?></p>
         <h4 class="titulo-datos">Descripción: </h4>
-        <p class="datos-datos"><?php echo $row2["Descripcion"]; ?></p>
-
-        <?php }
-
-        ?>
-      </div>
-      <div class="datos-admin3">
-        <?php $resultadoDatos3 = mysqli_query($conexion, $sqlDatosAdmin3);
-        while ($row3 = mysqli_fetch_assoc($resultadoDatos3)) { ?>
+        <p class="datos-datos"><?php echo $row["Descripcion_categoria"]; ?></p>
         <h4 class="titulo-datos">Nivel Académico: </h4>
-        <p class="datos-datos"><?php echo $row3["Nombre_nivel"]; ?></p>
+        <p class="datos-datos"><?php echo $row["Nombre_nivel"]; ?></p>
         <h4 class="titulo-datos">Descripción: </h4>
-        <p class="datos-datos"><?php echo $row3["Descripcion"]; ?></p>
+        <p class="datos-datos"><?php echo $row["Descripcion_nivel"]; ?></p>
 
         <?php }
 
         ?>
       </div>
+
     </div>
   </center>
 

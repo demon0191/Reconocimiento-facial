@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `laboratorio_dacb`.`Administrador` (
     REFERENCES `laboratorio_dacb`.`No_Autorizados` (`idNo_Autorizados`))
 ENGINE = InnoDB;
 
-INSERT INTO `administrador` (`Matricula_Administrador`, `Password`, `idPersona`, `idCategoria`, `idNivel_Academico`, `idNo_Autorizado`) VALUES ('192h17020','123456', '1', '1', '1', '1');
+INSERT INTO `administrador` (`Matricula_Administrador`, `Password`, `idPersona`, `idCategoria`, `idNivel_Academico`, `idNo_Autorizado`) VALUES ('192H17020','123456', '1', '1', '1', '1');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
