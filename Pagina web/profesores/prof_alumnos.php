@@ -2,6 +2,7 @@
 require("../conexion/conexion.php");
 session_start();
 $usuario = $_SESSION['Matricula_Profesor'];
+date_default_timezone_set('America/Mexico_City');
 $fecha_actual= date('Y-m-d');
 $sqlDatosAlum = "SELECT * FROM persona, alumnos,acceso_alumnos WHERE alumnos.idPersona=persona.idPersona and acceso_alumnos.fkMatricula_Profesor='".$usuario."' AND acceso_alumnos.fkMatricula_Alumno=alumnos.Matricula_Alumno and acceso_alumnos.Fecha='".$fecha_actual."'";
 
@@ -84,7 +85,7 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
               <?php echo $row["Nombre"]; ?></div>
             <div class="col col-3" data-label="Entrada"><?php echo $row["Hora_entrada"]; ?></div>
             <div class="col col-4" data-label="Salida"><?php echo $row["Hora_salida"]; ?></div>
-            <div class="col col-5" data-label="Presente"><?php echo $row["En_uso"]; ?></div>
+            <div class="col col-5" data-label="Presente"><?php $aux=$row["En_uso"];  echo div_en_uso($aux);?></div>
 
           </li>
 
@@ -191,3 +192,15 @@ $dataNivelAca = mysqli_query($conexion, $sqlNivelAca);
 
 
 </html>
+<?php
+function div_en_uso($num)
+{
+  $res="";
+    if($num=='0'){
+      $res="NO";
+    }else if($num=='1'){
+      $res="SI";
+    }
+    return $res;
+}
+?>

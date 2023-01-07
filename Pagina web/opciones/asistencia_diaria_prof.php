@@ -3,7 +3,7 @@ header("Content-Type: application/xls");
 header("Content-Disposition: attachment; filename=Asistencia diaria de los profesores.xls");
 
 require("../conexion/conexion.php");
-
+date_default_timezone_set('America/Mexico_City');
 $fecha_actual= date('Y-m-d');
 $sqlDatosProf = "SELECT * FROM persona, profesores, acceso_profesores WHERE profesores.idPersona=persona.idPersona and profesores.Matricula_Profesor=acceso_profesores.fkMatricula_Profesor and acceso_profesores.Fecha='".$fecha_actual."'";
 ?>

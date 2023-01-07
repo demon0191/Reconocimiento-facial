@@ -65,6 +65,28 @@
     <div class="b-example-divider mb-0"></div>
   </main>
 
+  <div class="acceso_alum" id="acceso_alum">
+    <div class="container-modal">
+      <div class="content-modal">
+        <center>
+          <form action="../validaciones/acceso_alum.php" method="post" class="formulario">
+            <h1>Acceso personal</h1>
+            <h4>Matricula:</h4>
+            <input type="text" placeholder="Ingresa tu matricula" name="matricula"><br>
+
+
+
+
+            <input type="submit" value="Ingresar" class="button">
+          </form>
+        </center>
+      </div>
+      <label for="btn-modal" class="cerrar-modal"></label>
+    </div>
+  </div>
+
+
+
 
 
   <footer id="footer" class="footer-1">
@@ -114,7 +136,9 @@
     crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+  <script type="text/javascript">
 
+  </script>
   <script type="text/javascript">
 
     //Tomar y configurar el canvas
@@ -222,6 +246,11 @@
         var clases = ['Acceso denegado', 'Acceso consedido'];
         console.log("Prediccion", clases[mayorIndice]);
         document.getElementById("resultado").innerHTML = clases[mayorIndice];
+        if (clases[mayorIndice] == "Acceso consedido") {
+          document.getElementById("acceso_alum").style.display = "block";
+        } else if (clases[mayorIndice] == "Acceso denegado") {
+          document.getElementById("acceso_alum").style.display = "none";
+        }
       }
 
       setTimeout(predecir, 150);
@@ -314,7 +343,9 @@
 
       ctx2.putImageData(img2, 0, 0);
     }
+    function guarda_aceptado() {
 
+    }
   </script>
 </body>
 

@@ -127,7 +127,7 @@ transition: all 250ms ease-in-out 0s;
 .content-body{
    width: max-content;
   height: auto;
-  background: #126ca1;
+  background:#126ca1 ;
   border-radius: 3%;
 margin: 2%;
 
@@ -138,9 +138,6 @@ margin: 2%;
 .datos-datos{
   font-size: 19px;
   margin: auto;
-}
-.datos-admin1{
- 
 }
 .datos-admin2{
   width:auto;
