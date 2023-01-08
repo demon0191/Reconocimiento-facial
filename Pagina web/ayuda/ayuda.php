@@ -8,6 +8,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/estilo.css">
   <link rel="stylesheet" href="../css/botones.css">
+  <link rel="shortcut icon" href="../img/logo_dacb.png" />
 </head>
 
 <body>

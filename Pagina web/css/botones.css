@@ -1,18 +1,18 @@
 .descarga {
-  background-image: linear-gradient(#42A1EC, #0070C9);
+  background-image: linear-gradient(#00c6c7, #009092);
   border: 1px solid #0077CC;
   border-radius: 4px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #c4ffff;
   cursor: pointer;
   direction: ltr;
   display: block;
   font-family: "SF Pro Text","SF Pro Icons","AOS Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: bold;
   letter-spacing: -.022em;
   line-height: 1.47059;
-  min-width: 30px;
+  width: auto;
   overflow: visible;
   padding: 4px 15px;
   text-align: center;
@@ -22,6 +22,8 @@
   touch-action: manipulation;
   white-space: nowrap;
   text-decoration-line: none;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 .descarga:disabled {

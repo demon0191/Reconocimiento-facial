@@ -11,6 +11,7 @@
   <!-- Core theme CSS (includes Bootstrap)-->
   <link href="../css/estilo_fallos.css" rel="stylesheet" />
   <link href="../css/estilo.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="../img/logo_dacb.png" />
 </head>
 
 <body>

@@ -8,7 +8,8 @@
     content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0">
 
   <link rel="stylesheet" href="../css/estilo_login.css" media="screen">
-  <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="../img/logo_dacb.png" />
+
 
 </head>
 
