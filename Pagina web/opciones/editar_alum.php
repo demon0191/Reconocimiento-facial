@@ -3,11 +3,11 @@ require('../conexion/conexion.php');
 $matricula=$_POST['matricula'];
 $apellidoP=$_POST['apellidop'];
 $apellidoM=$_POST['apellidom'];
-$nombre=$_POST['nombre'];
+$nombre=$_POST['nombreAlum'];
 $edad=$_POST['edad'];
 $carrera=$_POST['carrera'];
 $semestre=$_POST['semestre'];
-$nivel=$_POST['nivel'];
+$nivel=$_POST['nivelAca'];
 $categoria=3;
 $profesor=$_POST['matriculap'];
 

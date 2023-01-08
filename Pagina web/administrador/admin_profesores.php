@@ -3,6 +3,11 @@ require("../conexion/conexion.php");
 session_start();
 $usuario = $_SESSION['Matricula_Administrador'];
 $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profesores.idPersona=persona.idPersona and profesores.idNivel_Academico=nivel_academico.idNivel_Academico";
+
+$dataProf=mysqli_query($conexion, "SELECT Matricula_Profesor FROM profesores WHERE 1");
+$dataProf2=mysqli_query($conexion, "SELECT Matricula_Profesor FROM profesores WHERE 1");
+$dataNivelAca = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel FROM nivel_academico WHERE 1");
+$dataNivelAca2 = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel FROM nivel_academico WHERE 1");
 ?>
 <html lang="es">
 
@@ -13,6 +18,7 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/estilo.css">
+  <link rel="stylesheet" href="../css/botones.css">
   <link rel="shortcut icon" href="../img/logo_dacb.png" />
 </head>
 
@@ -109,22 +115,35 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
         <form action="../opciones/agregar_prof.php" method="post" class="formulario">
           <h1>Agregar profesor</h1>
           <h4>Matricula:</h4>
-          <input type="text" placeholder="Matricula" name="matricula">
+          <input type="text" placeholder="Matricula" name="matricula" class="campo-llenar">
           <h4>Apellido paterno:</h4>
-          <input type="text" placeholder="Arias" name="apellidop">
+          <input type="text" placeholder="Arias" name="apellidop" class="campo-llenar">
           <h4>Apellido materno:</h4>
-          <input type="text" placeholder="Morales" name="apellidom">
+          <input type="text" placeholder="Morales" name="apellidom" class="campo-llenar">
           <h4>Nombre completo:</h4>
-          <input type="text" placeholder="Adry Moisés" name="nombre">
+          <input type="text" placeholder="Adry Moisés" name="nombre" class="campo-llenar">
           <h4>Edad:</h4>
-          <input type="text" placeholder="21" name="edad">
+          <input type="text" placeholder="21" name="edad" class="campo-llenar">
           <h4>Email:</h4>
-          <input type="text" placeholder="ejemplo@email.com" name="email">
+          <input type="text" placeholder="ejemplo@email.com" name="email" class="campo-llenar">
           <h4>Nivel académico:</h4>
-          <input type="text" placeholder="Licenciatura" name="nivel">
+          <select id="nivel" name="nivel" class="campo-llenar">
+            <option value="">Seleccione el nivel</option>
+            <?php
+                      while ($dataSelectNivel = mysqli_fetch_array($dataNivelAca)) { 
+                        $idn=$dataSelectNivel["idNivel_Academico"];
+                        ?>
+            <option value="<?php echo $idn?>">
+              <?php 
+                          echo $dataSelectNivel["Nombre_nivel"];
+                          ?>
+            </option>
+            <?php 
+                  } ?>
+          </select>
           <!--categoria se pondra en el action-->
           <br>
-          <input type="submit" value="Ingresar" class="button">
+          <input type="submit" value="Ingresar" class="descarga">
         </form>
       </div>
       <div class="btn-cerrar">
@@ -140,22 +159,48 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
       <form action="../opciones/editar_prof.php" method="post" class="formulario">
         <h1>Editar profesor</h1>
         <h4>Matricula:</h4>
-        <input type="text" placeholder="Matricula" name="matricula">
+        <select id="matricula" name="matricula" class="campo-llenar">
+          <option value="">Seleccione la matricula</option>
+          <?php
+                      while ($dataSelectProf = mysqli_fetch_array($dataProf)) { 
+                        $ida=$dataSelectProf["Matricula_Profesor"];
+                        ?>
+          <option value="<?php echo $ida?>">
+            <?php 
+                          echo $dataSelectProf["Matricula_Profesor"];
+                          ?>
+          </option>
+          <?php 
+                  } ?>
+        </select>
         <h4>Apellido paterno:</h4>
-        <input type="text" placeholder="Arias" name="apellidop">
+        <input type="text" placeholder="Arias" name="apellidop" class="campo-llenar">
         <h4>Apellido materno:</h4>
-        <input type="text" placeholder="Morales" name="apellidom">
+        <input type="text" placeholder="Morales" name="apellidom" class="campo-llenar">
         <h4>Nombre completo:</h4>
-        <input type="text" placeholder="Adry Moisés" name="nombre">
+        <input type="text" placeholder="Adry Moisés" name="nombre" class="campo-llenar">
         <h4>Edad:</h4>
-        <input type="text" placeholder="21" name="edad">
+        <input type="text" placeholder="21" name="edad" class="campo-llenar">
         <h4>Email:</h4>
-        <input type="text" placeholder="ejemplo@email.com" name="email">
+        <input type="text" placeholder="ejemplo@email.com" name="email" class="campo-llenar">
         <h4>Nivel académico:</h4>
-        <input type="text" placeholder="Licenciatura" name="nivel">
+        <select id="nivel" name="nivel" class="campo-llenar">
+          <option value="">Seleccione el nivel</option>
+          <?php
+                      while ($dataSelectNivel2 = mysqli_fetch_array($dataNivelAca2)) { 
+                        $idn=$dataSelectNivel2["idNivel_Academico"];
+                        ?>
+          <option value="<?php echo $idn?>">
+            <?php 
+                          echo $dataSelectNivel2["Nombre_nivel"];
+                          ?>
+          </option>
+          <?php 
+                  } ?>
+        </select>
         <!--categoria se pondra en el action-->
         <br>
-        <input type="submit" value="Ingresar" class="button">
+        <input type="submit" value="Editar" class="descarga">
       </form>
       <div class="btn-cerrar2">
         <label for="btn-modal2">Cerrar</label>
@@ -170,10 +215,23 @@ $sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profes
       <form action="../opciones/eliminar_prof.php" method="post" class="formulario">
         <h1>Eliminar profesores</h1>
         <h4>Matricula:</h4>
-        <input type="text" placeholder="Matricula" name="matricula">
+        <select id="matricula" name="matricula" class="campo-llenar">
+          <option value="">Seleccione la matricula</option>
+          <?php
+                      while ($dataSelectProf = mysqli_fetch_array($dataProf2)) { 
+                        $ida=$dataSelectProf["Matricula_Profesor"];
+                        ?>
+          <option value="<?php echo $ida?>">
+            <?php 
+                          echo $dataSelectProf["Matricula_Profesor"];
+                          ?>
+          </option>
+          <?php 
+                  } ?>
+        </select>
 
         <br>
-        <input type="submit" value="Ingresar" class="button">
+        <input type="submit" value="Eliminar" class="descarga">
       </form>
       <div class="btn-cerrar3">
         <label for="btn-modal3">Cerrar</label>

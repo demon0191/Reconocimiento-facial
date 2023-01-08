@@ -7,8 +7,8 @@ $nombre=$_POST['nombre'];
 $edad=$_POST['edad'];
 $carrera=$_POST['carrera'];
 $semestre=$_POST['semestre'];
-$nivel=$_POST['nivel'];
-$categoria=3;
+$nivel=$_POST['nivelAca'];
+$categoria="3";
 $profesor=$_POST['matriculap'];
 
 if(empty($matricula) || empty($apellidoP) || empty($nombre) || empty($edad) || empty($carrera) || empty($semestre) || empty($nivel) || empty($categoria) || empty($profesor)){

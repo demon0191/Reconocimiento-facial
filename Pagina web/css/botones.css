@@ -12,7 +12,7 @@
   font-weight: bold;
   letter-spacing: -.022em;
   line-height: 1.47059;
-  width: auto;
+  width: 90%;
   overflow: visible;
   padding: 4px 15px;
   text-align: center;
@@ -24,6 +24,7 @@
   text-decoration-line: none;
   margin-left: 2%;
   margin-right: 2%;
+  margin-top: 1%;
 }
 
 .descarga:disabled {

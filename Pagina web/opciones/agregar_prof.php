@@ -30,7 +30,7 @@ if(!$row = mysqli_fetch_array($result)){
     //enviar_password($password,$email);//envia contraseña
     $SQLprof="INSERT INTO profesores(Matricula_Profesor, Email, Password, idNivel_Academico, idPersona, idCategoria) VALUES ('$matricula','$email','$password','$nivel','$idperson[0]','$categoria')";
     if($conexion -> query($SQLprof)==true){
-      echo "<script>alert('Profesor registrado, no olvide agregar las imagenes de su rostro en la carpeta correspondiente'); window.location.assign('../administrador/admin_alumnos.php') </script>";
+      echo "<script>alert('Profesor registrado, no olvide agregar las imagenes de su rostro en la carpeta correspondiente'); window.location.assign('../administrador/admin_profesores.php') </script>";
       echo '</script>'; 
     }
   }
@@ -46,12 +46,12 @@ if(!$row = mysqli_fetch_array($result)){
    $SQLprof="INSERT INTO profesores(Matricula_Profesor, Email, Password, idNivel_Academico, idPersona, idCategoria) VALUES ('$matricula','$email','$password','$nivel','$idperson[0]','$categoria')";
    
     if($conexion -> query($SQLprof)==true){
-      echo "<script>alert('Profesor registrado, no olvide agregar las imagenes de su rostro en la carpeta correspondiente'); window.location.assign('../administrador/admin_alumnos.php') </script>";
+      echo "<script>alert('Profesor registrado, no olvide agregar las imagenes de su rostro en la carpeta correspondiente'); window.location.assign('../administrador/admin_profesores.php') </script>";
       echo '</script>'; 
     }
   }
 }else{
-echo "<script>alert(Profesor ya registrado anteriormente'); window.location.assign('../administrador/admin_alumnos.php') </script>";
+echo "<script>alert(Profesor ya registrado anteriormente'); window.location.assign('../administrador/admin_profesores.php') </script>";
       echo '</script>'; 
 }
 

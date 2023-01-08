@@ -152,7 +152,7 @@ box-shadow: 3px 3px 5px 6px #ccc;
   background: red;
   border-radius: 2%;
 }
-.datos-admin3{}
+
 .saludo-admin{
   font-size:4vmax;
 }
@@ -378,6 +378,9 @@ input[type=radio]:checked + label li:nth-of-type(4) {
   width: 30px;
 }
 /*ventana emergente*/
+.campo-llenar{
+  width: 100%;
+}
 .boton-modal{
     padding: 40px;
     background-color: #fff;
