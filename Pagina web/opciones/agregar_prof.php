@@ -1,4 +1,6 @@
 <?php 
+include "class.phpmailer.php";
+include"class.smtp.php";
 require('../conexion/conexion.php');
 $matricula=$_POST['matricula'];
 $apellidoP=$_POST['apellidop'];
@@ -70,7 +72,8 @@ function generar_password()
 /*FUNCION PARA ENVIAR POR EMAIL*/
 
 function enviar_password($password, $email){
-		$subject = "Entrega de contraseña";
+		
+  $subject = "Entrega de contraseña";
 		$message = "Mediante este medio nos comunicamos con usted para hacerle entrega de su contraseña generada automaticamente, su contraseña es: ". $password;
 		return mail($email, $subject, $message);    
 	}
