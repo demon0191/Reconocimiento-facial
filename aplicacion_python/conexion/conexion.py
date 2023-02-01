@@ -13,34 +13,23 @@ class Database:
             database=database
         )
         self.cursor = self.conn.cursor()
-
     def execute_query(self, query, data):
       self.cursor.execute(query, data)
       results = self.cursor.fetchall()
       return results
-      
     def insert(self, table, data):
         columns = ", ".join(data.keys())
         values = ", ".join(["%s"] * len(data))
         sql = f"INSERT INTO {table} ({columns}) VALUES ({values})"
         self.cursor.execute(sql, list(data.values()))
         self.conn.commit()
-        
+    def update(self, table, data, where):
+      set_clause = ", ".join([f"{key}=%s" for key in data.keys()])
+      where_clause = " AND ".join([f"{key}=%s" for key in where.keys()])
+      sql = f"UPDATE {table} SET {set_clause} WHERE {where_clause}"
+      values = list(data.values()) + list(where.values())
+      self.cursor.execute(sql, values)
+      self.conn.commit()
     def close(self):
         self.cursor.close()
         self.conn.close()
-        
-        
-
-'''db = Database()
-# Execute a query
-matricula="192H20654"
-query = "SELECT  Matricula_Profesor FROM alumnos WHERE Matricula_Alumno=%s"
-data=(matricula,)
-results = db.execute_query(query,data)
-
-aux = results[0][0]
-print(aux)
-
-# Close the connection
-db.close()'''

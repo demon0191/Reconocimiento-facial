@@ -8,27 +8,14 @@ import tensorflow as tf
 import keras
 from keras.models import load_model
 import numpy as np
-
+import mysql.connector
 from conexion import conexion as conn #Archivo de conexion a la base de datos
 
 #Variables globales
 root = tk.Tk()
 db = conn.Database()
-#Función para inicar sesión del administrador
-def _iniciar_sesion():
-  root.iconify()
-  from administrador import iniciar_sesion
-  
-#Función de ayuda
-def _ayuda():
-  root.iconify()
-  from ayuda import ayuda
-  
-#Función Acerca de
-def _acerca_de():
-  root.iconify()
-  from ayuda import acerca_de
-
+alum=[]
+prof=[]
 #Finciones para iniciar video
 video = None
 def video_stream():
@@ -59,6 +46,7 @@ def tomar_Foto():
   else:
     print("Error al acceder a la cámara")
   video.release()
+  video = cv2.VideoCapture(0)
   select_image()
 
 #Función para comparar la foto
@@ -92,30 +80,46 @@ def profesorEncontrado(matricula):
 def personalEncontrado(matricula):
   if alumnoEncontrado(matricula)==True:
     #Insertar datos alumno
-    db = conn.Database()
-    data = {
-      'Fecha': date,
-      'Hora_entrada': time,
-      'En_uso': 1,
-      'fkMatricula_Alumno': matricula,
-      'fkMatricula_Profesor': matriculaProfesor(matricula),
-      'idCategoria': 3
-    }
-    table = 'acceso_alumnos'
-    db.insert(table, data)
-    db.close()
-    titulo='Ingreso registrado'
-    mensajeExitoso(titulo)
+    if ingresoPrevioAlumno(matricula)==False or encontrandoElemento(alum, matricula)==False:
+      db = conn.Database()
+      data = {
+        'Fecha': date,
+        'Hora_entrada': time,
+        'En_uso': 1,
+        'fkMatricula_Alumno': matricula,
+        'fkMatricula_Profesor': matriculaProfesor(matricula),
+        'idCategoria': 3
+        }
+      table = 'acceso_alumnos'
+      db.insert(table, data)
+      db.close()
+      if encontrandoElemento(alum, matricula)==True:
+        #192H21384
+        tabla='acceso_alumnos'
+        campo='fkMatricula_Alumno'
+        insertHoraSalida(tabla,matricula,campo)
+        titulo='Salida registrada'
+        mensajeExitoso(titulo)
+      else:
+        alum.append(matricula)
+        titulo='Ingreso registrado1'
+        mensajeExitoso(titulo)
+    else:
+      tabla='acceso_alumnos'
+      campo='fkMatricula_Alumno'
+      insertHoraSalida(tabla,matricula,campo)
+      titulo='Salida registrada'
+      mensajeExitoso(titulo)
   elif profesorEncontrado(matricula)==True:
-    #Insertar datos profesor
+      #Insertar datos profesor
     db = conn.Database()
     data = {
       'Fecha': date,
       'Hora_entrada': time,
       'En_uso': 1,
       'fkMatricula_Profesor': matricula,
-      'idCategoria': 3
-    }
+      'idCategoria': 2
+      }
     table = 'acceso_profesores'
     db.insert(table, data)
     db.close()
@@ -123,8 +127,28 @@ def personalEncontrado(matricula):
     mensajeExitoso(titulo)
   else:
     #Mostrar mensaje de error
-    titulo = "Matricula no encontrada"
+    titulo = "Personal no autorizado"
     mensajeError(titulo)
+
+def ingresoPrevioPersonal(matricula,categoria):
+  #Saber si el personal ya cuenta con un ingreso el dia actual
+  bandera=True
+  if categoria == 2:
+    query = "SELECT * FROM acceso_profesores WHERE fkMatricula_Profesor=%s and Fecha=%s"
+    data=(matricula,date)
+    results = db.execute_query(query,data)
+    if listaVacia(results):
+      bandera = False
+    else:
+      bandera = True
+  elif categoria ==3:
+    query = "SELECT * FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
+    data=(matricula,date)
+    results = db.execute_query(query,data)
+    if listaVacia(results):
+      bandera = False
+    else:
+      bandera = True
 def matriculaProfesor(matriculaAlum):
   query = "SELECT  Matricula_Profesor FROM alumnos WHERE Matricula_Alumno=%s"
   data=(matriculaAlum,)
@@ -139,7 +163,21 @@ def insertNoAutorizados():
   table = 'no_autorizados'
   db.insert(table, data)
   db.close()
+def insertHoraSalida(tabla, matricula, campo):
+  #datos para modificar
+  db = conn.Database()
+  data = {
+    'Hora_salida': time,
+    'En_uso': 0
+    }
+  where = {
+    campo: matricula,
+    'Fecha': date
+    }
+  db.update(tabla, data, where)
+  db.close()
 
+  
 def select_image():
     # Load the selected image and resize it to the same size as the training images
     #image = keras.preprocessing.image.load_img(file_path, target_size=(640, 360))
@@ -169,7 +207,6 @@ def mensajeResultado(result):
     else:
       titulo="Acceso denegado"
       accesoDenegado(titulo)
-
 #Función que muestra la ventana de acceso consedido
 def accesoConsedido(titulo):
   mensajeConsedido = Toplevel(root)
@@ -237,38 +274,57 @@ def center_window(root, width, height):
 #Función para saber si una lista esta vacia
 def listaVacia(list):
   return not list
+#Función para saber si hay un registro previo el dia actual de dicha persona
+def ingresoPrevio(matricula):
+  data=(matricula,date)
+  if profesorEncontrado(matricula):
+    query = "SELECT * FROM acceso_profesores WHERE fkMatricula_Profesor=%s and Fecha=%s"
+    results = db.execute_query(query, data)
+    tabla="acceso_profesores"
+    campo="fkMatricula_Profesor"
+    if len(results) > 0:
+      insertHoraSalida(tabla, matricula, campo)
+      return True
+  elif alumnoEncontrado(matricula):
+    query = "SELECT * FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
+    results = db.execute_query(query, data)
+    tabla="acceso_alumnos"
+    campo="fkMatricula_Alumno"
+    if len(results) > 0:
+      insertHoraSalida(tabla, matricula, campo)
+      return True
+  return False
+#Función ingreo previo alumno
+def ingresoPrevioAlumno(matricula):
+  data=(matricula,date)
+  query = "SELECT * FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
+  results = db.execute_query(query, data)
+  tabla="acceso_alumnos"
+  campo="fkMatricula_Alumno"
+  if listaVacia(results):
+    return False
+  return True
+#Función para saber si esta el elemento en la lista
+def encontrandoElemento(list_var, val):
+  for valor in list_var:
+    if valor==val:
+      return True
+  return False
 
 root.title("Sistema de autenticación")
 root.resizable(0,0)
-
-#Creando la barra de menu de opciones
-barraMenu = Menu(root, tearoff=0)
-root.config(menu=barraMenu)
-
-#Crear los menus
-administrador = Menu(barraMenu, tearoff=0)
-administrador.add_command(label="Iniciar sesión", command=_iniciar_sesion)
-
-ayuda = Menu(barraMenu, tearoff=0)
-ayuda.add_command(label="Ayuda", command=_ayuda)
-ayuda.add_command(label="Acerca", command=_acerca_de)
-
-barraMenu.add_cascade(label="Administrador", menu = administrador)
-barraMenu.add_cascade(label="Ayuda", menu= ayuda)
-
 #etiquetas para marcar el video
 etiq_de_video = tk.Label(root, bg="black")
 etiq_de_video.place(x=170, y=0)
-
 boton = tk.Button(root, text="Tomar foto", bg="blue", relief="flat", cursor="hand2", command=tomar_Foto, width=15, height=2, font=("Calisto MT", 12, "bold"))
 boton.place(x=405, y=505)
-
 ancho = 1000
 alto = 600
 
-
 #Ejecutando el código
 video_stream()
+print(alum)
+print(prof)
 root.geometry("%dx%d" % (ancho, alto))
 root.update()
 center_window(root, ancho, alto)
