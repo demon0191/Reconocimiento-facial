@@ -54,12 +54,14 @@ model = load_model('authorized_personnel_model.h5')
 
 #Fecha y hora actual de la ciudad de mexico
 import datetime
-
-current_date_time = datetime.datetime.now()
-
-date = current_date_time.date()
-time = current_date_time.time()
-
+def get_date():
+  current_date_time = datetime.datetime.now()
+  date = current_date_time.date()
+  return date
+def get_time():
+  current_date_time = datetime.datetime.now()
+  time = current_date_time.time()
+  return time
 #Funciones para corroborar que es personal autorizado
 def alumnoEncontrado(matricula):
   query = "SELECT Matricula_Alumno FROM alumnos WHERE Matricula_Alumno=%s"
@@ -78,9 +80,11 @@ def profesorEncontrado(matricula):
   else:
     return True
 def personalEncontrado(matricula):
+  date=get_date()
+  time=get_time()
   if alumnoEncontrado(matricula)==True:
     #Insertar datos alumno
-    if ingresoPrevioAlumno(matricula)==False or encontrandoElemento(alum, matricula)==False:
+    if ingresoPrevioAlumno(matricula)==False:
       db = conn.Database()
       data = {
         'Fecha': date,
@@ -90,20 +94,19 @@ def personalEncontrado(matricula):
         'fkMatricula_Profesor': matriculaProfesor(matricula),
         'idCategoria': 3
         }
-      table = 'acceso_alumnos'
-      db.insert(table, data)
-      db.close()
+      tabla = 'acceso_alumnos'
       if encontrandoElemento(alum, matricula)==True:
         #192H21384
-        tabla='acceso_alumnos'
         campo='fkMatricula_Alumno'
         insertHoraSalida(tabla,matricula,campo)
         titulo='Salida registrada'
         mensajeExitoso(titulo)
       else:
         alum.append(matricula)
-        titulo='Ingreso registrado1'
+        db.insert(tabla, data)
+        titulo='Ingreso registrado'
         mensajeExitoso(titulo)
+      db.close()
     else:
       tabla='acceso_alumnos'
       campo='fkMatricula_Alumno'
@@ -112,24 +115,37 @@ def personalEncontrado(matricula):
       mensajeExitoso(titulo)
   elif profesorEncontrado(matricula)==True:
       #Insertar datos profesor
-    db = conn.Database()
-    data = {
-      'Fecha': date,
-      'Hora_entrada': time,
-      'En_uso': 1,
-      'fkMatricula_Profesor': matricula,
-      'idCategoria': 2
-      }
-    table = 'acceso_profesores'
-    db.insert(table, data)
-    db.close()
-    titulo="Ingreso registrado"
-    mensajeExitoso(titulo)
+      if ingresoPrevioProfesor(matricula)==False:
+        db = conn.Database()
+        data = {
+          'Fecha': date,
+          'Hora_entrada': time,
+          'En_uso': 1,
+          'fkMatricula_Profesor': matricula,
+          'idCategoria': 2
+          }
+        tabla = 'acceso_profesores'
+        if encontrandoElemento(prof, matricula)==True:
+          campo='fkMatricula_Profesor'
+          insertHoraSalida(tabla,matricula,campo)
+          titulo="Salida registrada"
+          mensajeExitoso(titulo)
+        else:
+          prof.append(matricula)
+          db.insert(tabla, data)
+          titulo='Ingreso registrado'
+          mensajeExitoso(titulo)
+        db.close()
+      else:
+        tabla='acceso_profesores'
+        campo='fkMatricula_Profesor'
+        insertHoraSalida(tabla,matricula,campo)
+        titulo='Salida registrada'
+        mensajeExitoso(titulo)
   else:
     #Mostrar mensaje de error
     titulo = "Personal no autorizado"
     mensajeError(titulo)
-
 def ingresoPrevioPersonal(matricula,categoria):
   #Saber si el personal ya cuenta con un ingreso el dia actual
   bandera=True
@@ -158,8 +174,8 @@ def matriculaProfesor(matriculaAlum):
 def insertNoAutorizados():
   db = conn.Database()
   data = {
-    'Fecha': date,
-    'Hora': time}
+    'Fecha': get_date(),
+    'Hora': get_time()}
   table = 'no_autorizados'
   db.insert(table, data)
   db.close()
@@ -167,39 +183,45 @@ def insertHoraSalida(tabla, matricula, campo):
   #datos para modificar
   db = conn.Database()
   data = {
-    'Hora_salida': time,
+    'Hora_salida': get_time(),
     'En_uso': 0
     }
   where = {
     campo: matricula,
-    'Fecha': date
+    'Fecha': get_date()
     }
   db.update(tabla, data, where)
   db.close()
-
-  
 def select_image():
     # Load the selected image and resize it to the same size as the training images
     #image = keras.preprocessing.image.load_img(file_path, target_size=(640, 360))
     #image_array = keras.preprocessing.image.img_to_array(image)
     from PIL import Image
-    image = Image.open("auxiliar.jpg")
-    image = image.resize((360, 640))
-    image_array = np.array(image)
+    #image = Image.open("auxiliar.jpg")
+    #image = image.resize((480, 640))
+    #image_array = np.array(image)
+    image = cv2.imread("auxiliar.jpg")
     result = False
+    face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+    faces = face_cascade.detectMultiScale(image, scaleFactor=1.1, minNeighbors=5)
     # Use the model to make a prediction on the selected image
-    predictions = model.predict(np.array([image_array]))
-
-    # Display the prediction in the GUI
-    if predictions[0][0] > 0.5:
-        label = tk.Label(root, text="Authorized personnel")
+    #predictions = model.predict(np.array([image_array]))
+    for (x, y, w, h) in faces:
+      # Crop the face from the image
+      face = image[y:y+h, x:x+w]
+      # Resize the cropped face to the desired size
+      face = cv2.resize(face, (640, 480))
+      # Predict if the face is authorized
+      prediction = model.predict(face.reshape(-1, 640, 480, 3))
+      # Display the prediction in the GUI
+      if prediction[0][0] > 0.9:
+        #label = tk.Label(root, text="Authorized personnel")
         result=True
-    else:
-        label = tk.Label(root, text="Not authorized personnel")
+      else:
+        #label = tk.Label(root, text="Not authorized personnel")
         result=False
-    label.pack()
+    #label.pack()
     mensajeResultado(result)
-
 def mensajeResultado(result):
     if result==True:
       titulo="Acceso consedido"
@@ -274,19 +296,26 @@ def center_window(root, width, height):
 #Función para saber si una lista esta vacia
 def listaVacia(list):
   return not list
+#Función para checar determinada hora
+def checarHora(hora, min):
+  current_time = datetime.datetime.now().time()
+  if current_time.hour >= hora and current_time.minute >= min:
+    return True
+  else:
+    return False
 #Función para saber si hay un registro previo el dia actual de dicha persona
 def ingresoPrevio(matricula):
   data=(matricula,date)
   if profesorEncontrado(matricula):
-    query = "SELECT * FROM acceso_profesores WHERE fkMatricula_Profesor=%s and Fecha=%s"
+    query = "SELECT fkMatricula_Profesor FROM acceso_profesores WHERE fkMatricula_Profesor=%s and Fecha=%s"
     results = db.execute_query(query, data)
     tabla="acceso_profesores"
     campo="fkMatricula_Profesor"
-    if len(results) > 0:
+    if results[0][0]==matricula:
       insertHoraSalida(tabla, matricula, campo)
       return True
   elif alumnoEncontrado(matricula):
-    query = "SELECT * FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
+    query = "SELECT fkMatricula_Alumno FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
     results = db.execute_query(query, data)
     tabla="acceso_alumnos"
     campo="fkMatricula_Alumno"
@@ -296,11 +325,21 @@ def ingresoPrevio(matricula):
   return False
 #Función ingreo previo alumno
 def ingresoPrevioAlumno(matricula):
-  data=(matricula,date)
-  query = "SELECT * FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
+  data=(matricula,get_date())
+  query = "SELECT fkMatricula_Alumno FROM acceso_alumnos WHERE fkMatricula_Alumno=%s and Fecha=%s"
   results = db.execute_query(query, data)
   tabla="acceso_alumnos"
   campo="fkMatricula_Alumno"
+  if listaVacia(results):
+    return False
+  return True
+#Función ingreso previo profesor
+def ingresoPrevioProfesor(matricula):
+  data=(matricula,get_date())
+  query = "SELECT fkMatricula_Profesor FROM acceso_profesores WHERE fkMatricula_Profesor=%s and Fecha=%s"
+  results = db.execute_query(query, data)
+  tabla="acceso_profesores"
+  campo="fkMatricula_Profesor"
   if listaVacia(results):
     return False
   return True
@@ -315,16 +354,13 @@ root.title("Sistema de autenticación")
 root.resizable(0,0)
 #etiquetas para marcar el video
 etiq_de_video = tk.Label(root, bg="black")
-etiq_de_video.place(x=170, y=0)
+etiq_de_video.place(x=170, y=20)
 boton = tk.Button(root, text="Tomar foto", bg="blue", relief="flat", cursor="hand2", command=tomar_Foto, width=15, height=2, font=("Calisto MT", 12, "bold"))
-boton.place(x=405, y=505)
+boton.place(x=405, y=525)
 ancho = 1000
 alto = 600
-
 #Ejecutando el código
 video_stream()
-print(alum)
-print(prof)
 root.geometry("%dx%d" % (ancho, alto))
 root.update()
 center_window(root, ancho, alto)
