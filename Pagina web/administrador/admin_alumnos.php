@@ -187,7 +187,7 @@ $dataProf2=mysqli_query($conexion,"SELECT Matricula_Profesor FROM profesores WHE
       <form action="../opciones/editar_alum.php" method="post" class="formulario">
         <h1>Editar alumnos</h1>
         <h4>Matricula:</h4>
-        <select id="matricula" name="matricula" class="campo-llenar">
+        <select id="matricula" name="matricula" class="campo-llenar" onchange="updateInputValue()">
           <option value="">Seleccione la matricula</option>
           <?php
                       while ($dataSelectAlum = mysqli_fetch_array($dataAlum)) { 
@@ -203,17 +203,18 @@ $dataProf2=mysqli_query($conexion,"SELECT Matricula_Profesor FROM profesores WHE
         </select>
 
         <h4>Apellido paterno:</h4>
-        <input type="text" placeholder="Arias" name="apellidop" class="campo-llenar">
+        <input type="text" placeholder="Arias" name="apellidop" class="campo-llenar" id="ApellidoPaterno">
         <h4>Apellido materno:</h4>
-        <input type="text" placeholder="Morales" name="apellidom" class="campo-llenar">
+        <input type="text" placeholder="Morales" name="apellidom" class="campo-llenar" id="ApellidoMaterno">
         <h4>Nombre completo:</h4>
-        <input type="text" placeholder="Adry Moisés" name="nombreAlum" id="nombreAlum" class="campo-llenar">
+        <input type="text" placeholder="Adry Moisés" name="nombreAlum" class="campo-llenar" id="NombreCompleto">
         <h4>Edad:</h4>
-        <input type="text" placeholder="21" name="edad" class="campo-llenar">
+        <input type="text" placeholder="21" name="edad" class="campo-llenar" id="Edad">
         <h4>Carrera:</h4>
-        <input type="text" placeholder="Ing. en Sistemas Computacionales" name="carrera" class="campo-llenar">
+        <input type="text" placeholder="Ing. en Sistemas Computacionales" name="carrera" class="campo-llenar"
+          id="Carrera">
         <h4>Semestre:</h4>
-        <input type="text" placeholder="7" name="semestre" class="campo-llenar">
+        <input type="text" placeholder="7" name="semestre" class="campo-llenar" id="Semestre">
         <h4>Nivel académico:</h4>
         <select id="nivel" name="nivelAca" class="campo-llenar">
           <option value="">Seleccione el nivel</option>
@@ -325,6 +326,30 @@ $dataProf2=mysqli_query($conexion,"SELECT Matricula_Profesor FROM profesores WHE
                   title="glorythemes">adrymoises.arias.morales@gmail.com</a></p>
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+  function updateInputValue() {
+    let matricula = document.getElementById("matricula");
+    let selectedOption = matricula.options[matricula.selectedIndex];
+    let matriculaValue = selectedOption.value;
+
+    <?php 
+      mysqli_data_seek($dataAlum, 0);
+      while ($dataSelectAlum = mysqli_fetch_array($dataAlum)) { 
+    ?>
+    if (matriculaValue === "<?php echo $dataSelectAlum["Matricula_Alumno"]; ?>") {
+      document.getElementById("ApellidoPaterno").value = "<?php echo $dataSelectAlum["ApellidoP"]; ?>";
+      document.getElementById("ApellidoMaterno").value = "<?php echo $dataSelectAlum["ApellidoM"]; ?>";
+      document.getElementById("NombreCompleto").value = "<?php echo $dataSelectAlum["Nombre"]; ?>";
+      document.getElementById("Edad").value = "<?php echo $dataSelectAlum["Edad"]; ?>";
+      document.getElementById("Carrera").value = "<?php echo $dataSelectAlum["Carrera"]; ?>";
+      document.getElementById("Semestre").value = "<?php echo $dataSelectAlum["Semestre"]; ?>";
+    }
+    <?php
+      }
+    ?>
+  }
+  </script>
 
 </body>
 

@@ -2,9 +2,9 @@
 require("../conexion/conexion.php");
 session_start();
 $usuario = $_SESSION['Matricula_Administrador'];
-$sqlDatosProf = "SELECT * FROM profesores, persona, nivel_academico WHERE profesores.idPersona=persona.idPersona and profesores.idNivel_Academico=nivel_academico.idNivel_Academico";
+$sqlDatosProf = "SELECT * FROM profesores, persona WHERE profesores.idPersona=persona.idPersona";
 
-$dataProf=mysqli_query($conexion, "SELECT Matricula_Profesor FROM profesores WHERE 1");
+$dataProf = mysqli_query($conexion, "SELECT Matricula_Profesor, Email, persona.ApellidoP, persona.ApellidoM, persona.Nombre, persona.Edad FROM profesores, persona WHERE profesores.idPersona=persona.idPersona");
 $dataProf2=mysqli_query($conexion, "SELECT Matricula_Profesor FROM profesores WHERE 1");
 $dataNivelAca = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel FROM nivel_academico WHERE 1");
 $dataNivelAca2 = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel FROM nivel_academico WHERE 1");
@@ -159,7 +159,7 @@ $dataNivelAca2 = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel
       <form action="../opciones/editar_prof.php" method="post" class="formulario">
         <h1>Editar profesor</h1>
         <h4>Matricula:</h4>
-        <select id="matricula" name="matricula" class="campo-llenar">
+        <select id="matricula" name="matricula" class="campo-llenar" onchange="updateInputValue()">
           <option value="">Seleccione la matricula</option>
           <?php
                       while ($dataSelectProf = mysqli_fetch_array($dataProf)) { 
@@ -174,15 +174,15 @@ $dataNivelAca2 = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel
                   } ?>
         </select>
         <h4>Apellido paterno:</h4>
-        <input type="text" placeholder="Arias" name="apellidop" class="campo-llenar">
+        <input type="text" placeholder="Arias" name="apellidop" class="campo-llenar" id="ApellidoPaterno">
         <h4>Apellido materno:</h4>
-        <input type="text" placeholder="Morales" name="apellidom" class="campo-llenar">
+        <input type="text" placeholder="Morales" name="apellidom" class="campo-llenar" id="ApellidoMaterno">
         <h4>Nombre completo:</h4>
-        <input type="text" placeholder="Adry Moisés" name="nombre" class="campo-llenar">
+        <input type="text" placeholder="Adry Moisés" name="nombre" class="campo-llenar" id="NombreCompleto">
         <h4>Edad:</h4>
-        <input type="text" placeholder="21" name="edad" class="campo-llenar">
+        <input type=" text" placeholder="21" name="edad" class="campo-llenar" id="Edad">
         <h4>Email:</h4>
-        <input type="text" placeholder="ejemplo@email.com" name="email" class="campo-llenar">
+        <input type="text" placeholder="ejemplo@email.com" name="email" class="campo-llenar" id="Email">
         <h4>Nivel académico:</h4>
         <select id="nivel" name="nivel" class="campo-llenar">
           <option value="">Seleccione el nivel</option>
@@ -279,6 +279,29 @@ $dataNivelAca2 = mysqli_query($conexion, "SELECT idNivel_Academico, Nombre_nivel
               <p><a href="mailto:adrymoises.arias.morales@gmail.com"
                   title="glorythemes">adrymoises.arias.morales@gmail.com</a></p>
   </footer>
+
+  <script>
+  function updateInputValue() {
+    let matricula = document.getElementById("matricula");
+    let selectedOption = matricula.options[matricula.selectedIndex];
+    let matriculaValue = selectedOption.value;
+
+    <?php 
+      mysqli_data_seek($dataProf, 0);
+      while ($dataSelectProf= mysqli_fetch_array($dataProf)) { 
+    ?>
+    if (matriculaValue === "<?php echo $dataSelectProf["Matricula_Profesor"]; ?>") {
+      document.getElementById("ApellidoPaterno").value = "<?php echo $dataSelectProf["ApellidoP"]; ?>";
+      document.getElementById("ApellidoMaterno").value = "<?php echo $dataSelectProf["ApellidoM"]; ?>";
+      document.getElementById("NombreCompleto").value = "<?php echo $dataSelectProf["Nombre"]; ?>";
+      document.getElementById("Edad").value = "<?php echo $dataSelectProf["Edad"]; ?>";
+      document.getElementById("Email").value = "<?php echo $dataSelectProf["Email"]; ?>";
+    }
+    <?php
+      }
+    ?>
+  }
+  </script>
 </body>
 
 </html>
